@@ -10,5 +10,6 @@ public:
 	~PathCreator();
 	std::vector<std::vector<SurfacePoint>> CreatePath(Triangulation& tri, double, double);
 	std::vector<Triangle> sortTriangles(std::vector<Triangle>&);
+	std::vector<SurfacePoint> sortPoints(std::vector<Triangle>&, Triangulation&, double);
 };
 

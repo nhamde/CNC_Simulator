@@ -86,3 +86,31 @@ vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& coplanarTriangles)
 
 	return sortedLoop;
 }
+
+vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& tri, double y_value)
+{
+	vector<vector<SurfacePoint>> intersectionPoints;
+	vector<SurfacePoint> sortedPoints;
+	unordered_map<SurfacePoint, int> map;
+	Intersector intersector;
+
+	for (auto t : sortedTriangles)
+	{
+		intersectionPoints.push_back(intersector.intersect(t, y_value, tri));
+	}
+
+	for (auto intersection : intersectionPoints)
+	{
+		for (int i = 0; i < intersection.size(); i++)
+		{
+			auto pair = map.find(intersection[i]);
+			if (pair == map.end())
+			{
+				sortedPoints.push_back(intersection[i]);
+				map[intersection[i]] = sortedPoints.size() - 1;
+			}
+		}
+	}
+
+	return sortedPoints;
+}

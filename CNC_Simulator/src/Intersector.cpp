@@ -1,5 +1,6 @@
 #include "Intersector.h"
 #include "SurfacePoint.h"
+#include <unordered_map>
 using namespace Geometry;
 
 Intersector::Intersector()
@@ -25,6 +26,7 @@ SurfacePoint* Intersector::isIntersecting(Point& p1, Point& p2, double y, const 
 vector<SurfacePoint> Intersector::intersect( Triangle& t, double y, const Triangulation& tri)
 {
     vector<SurfacePoint> intersectingPts;
+    unordered_map<SurfacePoint, int, SurfacePoint> graph;
 
     Point p1 = t.P1();
     Point p2 = t.P2();
@@ -34,12 +36,25 @@ vector<SurfacePoint> Intersector::intersect( Triangle& t, double y, const Triang
     SurfacePoint* ptOnEdge2 = isIntersecting(p3, p2, y, tri.uniqueNumbers);
     SurfacePoint* ptOnEdge3 = isIntersecting(p1, p3, y, tri.uniqueNumbers);
 
-    if (ptOnEdge1)
-        intersectingPts.push_back(*ptOnEdge1);
-    if (ptOnEdge2)
-        intersectingPts.push_back(*ptOnEdge2);
-    if (ptOnEdge3)
-        intersectingPts.push_back(*ptOnEdge3);
+    auto addUniquePoint = [&intersectingPts](SurfacePoint* pt) 
+        {
+            if (pt) 
+            {
+                if (find(intersectingPts.begin(), intersectingPts.end(), *pt) == intersectingPts.end()) 
+                {
+                    intersectingPts.push_back(*pt);
+                }
+            }
+        };
+
+    addUniquePoint(ptOnEdge1);
+    addUniquePoint(ptOnEdge2);
+    addUniquePoint(ptOnEdge3);
+
+    if (intersectingPts.size() > 2) 
+    {
+        intersectingPts.resize(2);
+    }
 
     return intersectingPts;
 }
