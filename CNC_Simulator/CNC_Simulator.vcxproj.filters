@@ -51,7 +51,10 @@
     <ClInclude Include="headers\PathCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\BoundingBox.h">
+    <ClInclude Include="headers\STLWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Writer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,7 +80,10 @@
     <ClCompile Include="src\PathCreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BoundingBox.cpp">
+    <ClCompile Include="src\STLWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

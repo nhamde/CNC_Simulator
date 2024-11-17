@@ -9,13 +9,8 @@ namespace Geometry
 		double y;
 		double z;
 	public:
-		/*struct Node {
-			Geometry::SurfacePoint point; 
-			Node* next;          
 
-			Node(const Geometry::SurfacePoint& sp) : point(sp), next(nullptr) {}
-		};*/
-
+		SurfacePoint();
 		SurfacePoint(double, double, double);
 		~SurfacePoint();
 		SurfacePoint* next = nullptr;
@@ -25,8 +20,6 @@ namespace Geometry
 		bool operator==(const SurfacePoint& other) const;
 		bool operator!=(const SurfacePoint& other) const;
 		bool operator<(const SurfacePoint& other) const;
-		SurfacePoint CrossProduct(SurfacePoint& p);
-		SurfacePoint calculateNormal(SurfacePoint& A, SurfacePoint& B, SurfacePoint& C);
-		void normalize();
+		bool operator()(const SurfacePoint& other) const;
 	};
 }

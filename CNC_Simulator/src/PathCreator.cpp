@@ -2,6 +2,7 @@
 #include "Intersector.h"
 #include <unordered_map>
 #include<stdexcept>
+#include <iostream>
 using namespace std;
 PathCreator::PathCreator()
 {
@@ -32,12 +33,12 @@ std::vector<std::vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tr
 			SurfacePoint sp2 = tri.getRealPoint(p2);
 			SurfacePoint sp3 = tri.getRealPoint(p3);
 
-			if ((tri.uniqueNumbers[sp1.Y()] <= y && tri.uniqueNumbers[sp2.Y()] > y) ||
-				(tri.uniqueNumbers[sp1.Y()] > y && tri.uniqueNumbers[sp2.Y()] <= y) ||
-				(tri.uniqueNumbers[sp1.Y()] <= y && tri.uniqueNumbers[sp3.Y()] > y) ||
-				(tri.uniqueNumbers[sp1.Y()] > y && tri.uniqueNumbers[sp3.Y()] <= y) ||
-				(tri.uniqueNumbers[sp2.Y()] <= y && tri.uniqueNumbers[sp3.Y()] > y) ||
-				(tri.uniqueNumbers[sp2.Y()] > y && tri.uniqueNumbers[sp3.Y()] <= y))
+			if ((sp1.Y() <= y && sp2.Y() > y) ||
+				(sp1.Y() > y && sp2.Y() <= y) ||
+				(sp1.Y() <= y && sp3.Y() > y) ||
+				(sp1.Y() > y && sp3.Y() <= y) ||
+				(sp2.Y() <= y && sp3.Y() > y) ||
+				(sp2.Y() > y && sp3.Y() <= y))
 			{ 
 				intersect = true; 
 			}
@@ -47,7 +48,7 @@ std::vector<std::vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tr
 			}
 		}
 		vector<Triangle> sortedTriangles = sortTriangles(yIntersecingTrs);
-		vector<SurfacePoint> sortedPoints;
+		vector<SurfacePoint> sortedPoints = sortPoints(sortedTriangles, tri, y);
 		path.push_back(sortedPoints);
 	}
 	return path;
@@ -91,9 +92,9 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 {
 	vector<vector<SurfacePoint>> intersectionPoints;
 	vector<SurfacePoint> sortedPoints;
-	unordered_map<SurfacePoint, int> map;
-	Intersector intersector;
+	unordered_map<SurfacePoint, int, SurfacePoint> map;
 
+	Intersector intersector;
 	for (auto t : sortedTriangles)
 	{
 		intersectionPoints.push_back(intersector.intersect(t, y_value, tri));
@@ -111,6 +112,5 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 			}
 		}
 	}
-
 	return sortedPoints;
 }

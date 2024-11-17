@@ -18,7 +18,7 @@ public:
         struct Data
         {
             QVector<GLfloat> vertices;
-            QVector<GLfloat> normals;
+            //QVector<GLfloat> normals;
     };
 
 public:

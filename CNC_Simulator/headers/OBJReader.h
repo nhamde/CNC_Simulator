@@ -2,7 +2,6 @@
 #include <QStringList>
 #include "Triangulation.h"
 #include "Reader.h"
-#include "BoundingBox.h"
 using namespace Geometry;
 
 class OBJReader : public Reader

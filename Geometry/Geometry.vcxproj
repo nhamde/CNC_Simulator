@@ -145,7 +145,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="headers\Edge.h" />
-    <ClInclude Include="headers\Matrix4x4.h" />
     <ClInclude Include="headers\Point.h" />
     <ClInclude Include="headers\SurfacePoint.h" />
     <ClInclude Include="headers\Triangle.h" />
@@ -153,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Edge.cpp" />
-    <ClCompile Include="src\Matrix4x4.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\SurfacePoint.cpp" />
     <ClCompile Include="src\Triangle.cpp" />

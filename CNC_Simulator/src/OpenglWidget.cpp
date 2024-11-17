@@ -26,14 +26,6 @@ void OpenGlWidget::setData(Data inData)
     update();
 }
 
-//void OpenGlWidget::setData(vector<SurfacePoint> pts)
-//{
-//    //data = inData;
-//    makeCurrent();
-//    initializeGL();
-//    update();
-//}
-
 QSize OpenGlWidget::minimumSizeHint() const
 {
     return QSize(50, 50);
@@ -62,15 +54,11 @@ void OpenGlWidget::initializeGL()
         //loadSTL("path/to/your/model.stl");
 
         // Prepare VBO
+
         std::vector<float> vertexData;
-        for (int i = 0; i < data.vertices.size(); i = i + 3)
+        for (int i = 0; i < data.vertices.size(); i++)
         {
             vertexData.push_back(data.vertices[i]);
-            vertexData.push_back(data.vertices[i + 1]);
-            vertexData.push_back(data.vertices[i + 2]);
-            vertexData.push_back(data.normals[i]);
-            vertexData.push_back(data.normals[i + 1]);
-            vertexData.push_back(data.normals[i + 2]);
         }
 
         vbo.create();
@@ -78,10 +66,8 @@ void OpenGlWidget::initializeGL()
         vbo.allocate(vertexData.data(), static_cast<int>(vertexData.size() * sizeof(float)));
 
         shaderProgram.bind();
-        shaderProgram.enableAttributeArray(0); // Position attribute
-        shaderProgram.enableAttributeArray(1); // Normal attribute
-        shaderProgram.setAttributeBuffer(0, GL_FLOAT, 0, 3, 6 * sizeof(float));
-        shaderProgram.setAttributeBuffer(1, GL_FLOAT, 3 * sizeof(float), 3, 6 * sizeof(float));
+        shaderProgram.enableAttributeArray(0);
+        shaderProgram.setAttributeBuffer(0, GL_FLOAT, 0, 3, 3 * sizeof(float));
         shaderProgram.release();
         isInitialized = true;
     }
@@ -112,8 +98,10 @@ void OpenGlWidget::paintGL()
         shaderProgram.setUniformValue("lightPos", lightPos);
         shaderProgram.setUniformValue("viewPos", QVector3D(0.0f, 0.0f, 5.0f));
 
+        glLineWidth(3.0f);
+
         vbo.bind();
-        glDrawArrays(GL_TRIANGLES, 0, data.vertices.size()/3);
+        glDrawArrays(GL_LINE_STRIP, 0, data.vertices.size()/3);
         vbo.release();
 
         shaderProgram.release();

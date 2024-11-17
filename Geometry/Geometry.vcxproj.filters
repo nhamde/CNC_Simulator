@@ -24,9 +24,6 @@
     <ClInclude Include="headers\Triangulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Matrix4x4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="headers\SurfacePoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,9 +39,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Triangulation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Matrix4x4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SurfacePoint.cpp">

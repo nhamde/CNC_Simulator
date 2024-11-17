@@ -1,7 +1,12 @@
 #include "SurfacePoint.h"
-#include<cmath>
-#include <unordered_set>
 using namespace Geometry;
+
+SurfacePoint::SurfacePoint()
+	:x(0.0),
+	y(0.0),
+	z(0.0)
+{
+}
  
 SurfacePoint::SurfacePoint(double _x, double _y, double _z)
 	:x(_x),
@@ -39,6 +44,15 @@ bool SurfacePoint::operator<(const SurfacePoint& other) const
 	}
 	return z < other.z;
 }
+
+bool Geometry::SurfacePoint::operator()(const SurfacePoint& other) const
+{
+	if (x > other.x) return true;
+	if (x < other.x) return false;
+	if (y > other.y) return true;
+	if (y < other.y) return false;
+	return z > other.z;
+}
  
 bool SurfacePoint::operator==(const SurfacePoint& other) const
 {
@@ -47,50 +61,4 @@ bool SurfacePoint::operator==(const SurfacePoint& other) const
 bool SurfacePoint::operator!=(const SurfacePoint& other) const
 {
 	return !(*this == other);
-}
- 
-SurfacePoint SurfacePoint::CrossProduct(SurfacePoint& p)
-{
-	double crossX = y * p.Z() - z * p.Y();
-	double crossY = z * p.X() - x * p.Z();
-	double crossZ = x * p.Y() - y * p.X();
- 
-	return SurfacePoint(crossX, crossY, crossZ);
-}
-SurfacePoint SurfacePoint::calculateNormal(SurfacePoint& A,  SurfacePoint& B, SurfacePoint& C) {
-	double x = B.X() - A.X();
-	double y = B.Y() - A.Y();
-	double z = B.Z() - A.Z();
-	SurfacePoint AB(x, y, z);
-	double x1 = C.X() - A.X();
-	double y1 = C.Y() - A.Y();
-	double z1 = C.Z() - A.Z();
-	SurfacePoint AC(x1, y1, z1);
- 
-	SurfacePoint normal = AB.CrossProduct(AC);
- 
-	normal.normalize();
- 
-	return normal;
-}
- 
-void SurfacePoint::normalize() {
-	double length = std::sqrt(x * x + y * y + z * z);
-	if (length != 0) {
-		x /= length;
-		y /= length;
-		z /= length;
-	}
-}
-
-namespace std 
-{ 
-	template <>     
-	struct hash<SurfacePoint>
-	{ 
-		size_t operator()(SurfacePoint& v)
-		{ 
-			return hash<double>()(v.X()) ^ hash<double>()(v.Y()) ^ hash<double>()(v.Z());
-		} 
-	}; 
 }

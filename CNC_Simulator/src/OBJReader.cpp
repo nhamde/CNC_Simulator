@@ -12,7 +12,6 @@
 #include "CNC_Simulator.h"
 #include <QDebug>
 #include <map>
-#include "BoundingBox.h"
 #define TOLERANCE 0.0000001
 using namespace Geometry;
 

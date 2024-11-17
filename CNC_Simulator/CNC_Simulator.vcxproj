@@ -64,10 +64,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Transformation\headers;$(SolutionDir)Geometry\headers;$(ProjectDir)headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Geometry\headers;$(ProjectDir)headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Geometry.lib;Transformation.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Geometry.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutputPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -88,7 +88,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -112,15 +112,15 @@
     <QtMoc Include="headers\CNC_Simulator.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\BoundingBox.h" />
     <ClInclude Include="headers\Intersector.h" />
     <ClInclude Include="headers\PathCreator.h" />
     <ClInclude Include="headers\Reader.h" />
+    <ClInclude Include="headers\STLWriter.h" />
+    <ClInclude Include="headers\Writer.h" />
     <QtMoc Include="headers\OpenglWidget.h" />
     <ClInclude Include="headers\OBJReader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\BoundingBox.cpp" />
     <ClCompile Include="src\CNC_Simulator.cpp" />
     <ClCompile Include="src\Intersector.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -128,6 +128,8 @@
     <ClCompile Include="src\OpenglWidget.cpp" />
     <ClCompile Include="src\PathCreator.cpp" />
     <ClCompile Include="src\Reader.cpp" />
+    <ClCompile Include="src\STLWriter.cpp" />
+    <ClCompile Include="src\Writer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
