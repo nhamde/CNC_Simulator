@@ -55,19 +55,30 @@ void OpenGlWidget::initializeGL()
 
         // Prepare VBO
 
-        std::vector<float> vertexData;
+        vector<float> vertexData;
+        vector<float> normalsData;
         for (int i = 0; i < data.vertices.size(); i++)
         {
             vertexData.push_back(data.vertices[i]);
+
+            QVector3D normal(0.0f, 1.0f, 0.0f); // Simple fake normal pointing up (adjust accordingly)
+            normalsData.push_back(normal.x());
+            normalsData.push_back(normal.y());
+            normalsData.push_back(normal.z());
         }
 
         vbo.create();
         vbo.bind();
-        vbo.allocate(vertexData.data(), static_cast<int>(vertexData.size() * sizeof(float)));
+        vector<float> combinedData;
+        combinedData.insert(combinedData.end(), vertexData.begin(), vertexData.end());
+        combinedData.insert(combinedData.end(), normalsData.begin(), normalsData.end());
+        vbo.allocate(combinedData.data(), static_cast<int>(combinedData.size() * sizeof(float)));
 
         shaderProgram.bind();
         shaderProgram.enableAttributeArray(0);
-        shaderProgram.setAttributeBuffer(0, GL_FLOAT, 0, 3, 3 * sizeof(float));
+        shaderProgram.setAttributeBuffer(0, GL_FLOAT, 0, 3, 6 * sizeof(float));
+        shaderProgram.enableAttributeArray(1); // Normal attribute
+        shaderProgram.setAttributeBuffer(1, GL_FLOAT, 3 * sizeof(float), 3, 6 * sizeof(float)); // Normal buffer
         shaderProgram.release();
         isInitialized = true;
     }
@@ -95,8 +106,12 @@ void OpenGlWidget::paintGL()
         shaderProgram.setUniformValue("modelView", modelView);
 
         QVector3D lightPos(0.5f, 0.5f, 1.0f);
+        QVector3D viewPos(0.0f, 0.0f, 5.0f);   // Example camera position
+
         shaderProgram.setUniformValue("lightPos", lightPos);
-        shaderProgram.setUniformValue("viewPos", QVector3D(0.0f, 0.0f, 5.0f));
+        shaderProgram.setUniformValue("viewPos", viewPos);
+
+        glEnable(GL_LINE_SMOOTH);
 
         glLineWidth(3.0f);
 
