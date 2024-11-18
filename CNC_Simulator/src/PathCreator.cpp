@@ -1,6 +1,7 @@
 ﻿#include "PathCreator.h"
 #include "Intersector.h"
 #include <unordered_map>
+#include <map>
 #include<stdexcept>
 #include <iostream>
 using namespace std;
@@ -12,11 +13,10 @@ PathCreator::~PathCreator()
 {
 }
 
-std::vector<std::vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tri, double y_max, double y_min)
+vector<vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tri, double y_max, double y_min)
 {
 	vector<vector<SurfacePoint>> path;
 	double y = y_max;
-	Intersector in;
 
 	for (; y >= y_min; y = y - 0.1)
 	{
@@ -90,17 +90,17 @@ vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& coplanarTriangles)
 
 vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& tri, double y_value)
 {
-	vector<vector<SurfacePoint>> intersectionPoints;
+	vector<vector<SurfacePoint>> IntersectionPtsOfEachTrs;
 	vector<SurfacePoint> sortedPoints;
-	unordered_map<SurfacePoint, int, SurfacePoint> map;
+	map<SurfacePoint, int> map;
 
 	Intersector intersector;
 	for (auto t : sortedTriangles)
 	{
-		intersectionPoints.push_back(intersector.intersect(t, y_value, tri));
+		IntersectionPtsOfEachTrs.push_back(intersector.intersect(t, y_value, tri));
 	}
 
-	for (auto intersection : intersectionPoints)
+	for (auto intersection : IntersectionPtsOfEachTrs)
 	{
 		for (int i = 0; i < intersection.size(); i++)
 		{
@@ -110,6 +110,7 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 				sortedPoints.push_back(intersection[i]);
 				map[intersection[i]] = sortedPoints.size() - 1;
 			}
+			
 		}
 	}
 	return sortedPoints;

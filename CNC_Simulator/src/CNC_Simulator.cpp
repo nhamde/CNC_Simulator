@@ -11,14 +11,14 @@ void CNC_Simulator::setupUi()
 {
     loadFile = new QPushButton("Load File", this);
     simulate = new QPushButton("Simulate", this);
-    translate = new QPushButton("Translate", this);
+    //translate = new QPushButton("Translate", this);
     openglWindowInput = new OpenGlWidget(this);
     openglWindowOutput = new OpenGlWidget(this);
 
     QGridLayout* layout = new QGridLayout(this);
 
     layout->addWidget(loadFile, 0, 0, 1, 2);
-    layout->addWidget(translate, 0, 2, 1, 2);
+    //layout->addWidget(translate, 0, 2, 1, 2);
     layout->addWidget(simulate, 0, 4, 1, 2);
     layout->addWidget(openglWindowInput, 1, 0, 1, 3);
     layout->addWidget(openglWindowOutput, 1, 3, 1, 3);
@@ -82,7 +82,7 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.CreatePath(inTri, 0.86, -0.86);
+    vector<vector<SurfacePoint>> vectorOfPoints = pc.CreatePath(inTri, 0.0, -20);
 
     OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
     openglWindowInput->setData(data);

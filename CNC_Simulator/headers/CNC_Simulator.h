@@ -29,7 +29,7 @@ private slots:
 private:
     QPushButton* loadFile;
     QPushButton* simulate;
-    QPushButton* translate;
+    //QPushButton* translate;
     OpenGlWidget* openglWindowInput;
     OpenGlWidget* openglWindowOutput;
 
