@@ -15,8 +15,8 @@ SurfacePoint* Intersector::isIntersecting(Point& p1, Point& p2, double y, const 
 
     if ((uniqueValues[p1.Y()] - y) * (uniqueValues[p2.Y()] - y) <= 0) {
         double ty = (y - uniqueValues[p1.Y()]) / (uniqueValues[p2.Y()] - uniqueValues[p1.Y()]);
-        double x_ = uniqueValues[p1.X()] + ty * (uniqueValues[p2.X()] - uniqueValues[p2.X()]);
-        double z_ = uniqueValues[p1.Z()] + ty * (uniqueValues[p2.Z()] - uniqueValues[p2.Z()]);
+        double x_ = uniqueValues[p1.X()] + ty * (uniqueValues[p2.X()] - uniqueValues[p1.X()]);
+        double z_ = uniqueValues[p1.Z()] + ty * (uniqueValues[p2.Z()] - uniqueValues[p1.Z()]);
         return new SurfacePoint(x_, y, z_);
     }
     return nullptr;

@@ -82,12 +82,22 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.CreatePath(inTri, 100, -100);
+    vector<vector<SurfacePoint>> vectorOfPoints = pc.CreatePath(inTri, 0.86, -0.86);
 
     OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
     openglWindowInput->setData(data);
     cout << "Total number of polylines: " << vectorOfPoints.size() << endl;
     cout << "Polylines data is set successfully" << endl;
+
+    for (auto line : vectorOfPoints)
+    {
+        cout << "new Line" << endl;
+        for (auto pts : line)
+        {
+            cout << pts.X() << " " << pts.Y() << " " << pts.Z() << endl;
+        }
+        cout << endl;
+    }
 }
 
 void  CNC_Simulator::onLoadFileClick()
