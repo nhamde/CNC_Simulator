@@ -10,7 +10,7 @@ Triangulation::~Triangulation()
 
 }
 
-SurfacePoint Geometry::Triangulation::getRealPoint(Point& p)
+SurfacePoint Geometry::Triangulation::getRealPoint(const Point& p) const
 {
     double x;
     double y;

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 
 namespace Geometry
 {
@@ -17,9 +18,10 @@ namespace Geometry
 		double X();
 		double Y();
 		double Z();
+		friend std::ostream& operator<<(std::ostream& os, const SurfacePoint&);
 		bool operator==(const SurfacePoint& other) const;
 		bool operator!=(const SurfacePoint& other) const;
-		bool operator<(const SurfacePoint& other) const;
 		bool operator()(const SurfacePoint& other) const;
+		bool operator<(const SurfacePoint& other) const;
 	};
 }

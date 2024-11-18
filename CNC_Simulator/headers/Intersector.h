@@ -8,7 +8,7 @@ class Intersector
 public:
 	Intersector();
 	~Intersector();
-	SurfacePoint* isIntersecting(Point& p1, Point& p2, double y, const vector<double>& uniqueValues);
-	vector<SurfacePoint> intersect( Triangle& t, double y, const Triangulation&);
+	SurfacePoint* intersection(SurfacePoint& p1, SurfacePoint& p2, double y);
+	vector<SurfacePoint> intersect(Triangle& t, double y, const Triangulation&);
 
 };

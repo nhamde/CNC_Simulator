@@ -32,26 +32,19 @@ double SurfacePoint::Z()
 {
 	return z;
 }
- 
- 
-bool SurfacePoint::operator<(const SurfacePoint& other) const
-{
-	if (x != other.x) {
-		return x < other.x;
-	}
-	if (y != other.y) {
-		return y < other.y;
-	}
-	return z < other.z;
-}
 
 bool Geometry::SurfacePoint::operator()(const SurfacePoint& other) const
 {
 	if (x > other.x) return true;
 	if (x < other.x) return false;
-	if (y > other.y) return true;
-	if (y < other.y) return false;
 	return z > other.z;
+}
+
+bool SurfacePoint::operator<(const SurfacePoint& other) const
+{
+	if (x != other.x) return x < other.x;
+	if (y != other.y) return y < other.y;
+	return z < other.z;
 }
  
 bool SurfacePoint::operator==(const SurfacePoint& other) const
@@ -61,4 +54,10 @@ bool SurfacePoint::operator==(const SurfacePoint& other) const
 bool SurfacePoint::operator!=(const SurfacePoint& other) const
 {
 	return !(*this == other);
+}
+
+std::ostream& Geometry::operator<<(std::ostream& os, const SurfacePoint& sp)
+{
+	os << "X: " << sp.x << "  Y: " << sp.y << "  Z: " << sp.z << std::endl;
+	return os;
 }

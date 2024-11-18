@@ -1,7 +1,6 @@
 ﻿#include "PathCreator.h"
 #include "Intersector.h"
 #include <unordered_map>
-#include <map>
 #include<stdexcept>
 #include <iostream>
 using namespace std;
@@ -18,7 +17,7 @@ vector<vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tri, double 
 	vector<vector<SurfacePoint>> path;
 	double y = y_max;
 
-	for (; y >= y_min; y = y - 0.1)
+	for (; y >= y_min; y = y - 1)
 	{
 		vector<Triangle> yIntersecingTrs;
 		for (auto t:tri.Triangles)
@@ -50,6 +49,7 @@ vector<vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tri, double 
 		vector<Triangle> sortedTriangles = sortTriangles(yIntersecingTrs);
 		vector<SurfacePoint> sortedPoints = sortPoints(sortedTriangles, tri, y);
 		path.push_back(sortedPoints);
+		cout << "------------------>One polyline ends<------------------" << endl;
 	}
 	return path;
 }
@@ -92,7 +92,7 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 {
 	vector<vector<SurfacePoint>> IntersectionPtsOfEachTrs;
 	vector<SurfacePoint> sortedPoints;
-	map<SurfacePoint, int> map;
+	unordered_map<SurfacePoint, int, SurfacePoint> map;
 
 	Intersector intersector;
 	for (auto t : sortedTriangles)
@@ -110,7 +110,6 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 				sortedPoints.push_back(intersection[i]);
 				map[intersection[i]] = sortedPoints.size() - 1;
 			}
-			
 		}
 	}
 	return sortedPoints;
