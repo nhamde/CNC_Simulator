@@ -1,7 +1,8 @@
 #pragma once
 namespace Geometry 
 {
-    class BoundingBox {
+    class BoundingBox
+    {
 
     private:
 

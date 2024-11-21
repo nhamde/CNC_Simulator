@@ -99,7 +99,7 @@ void CNC_Simulator::onSimulateClick()
 
     OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
     QVector<OpenGlWidget::Data> dataList = QVector<OpenGlWidget::Data>{ data };
-    openglWindowOutput->setData(dataList);
+    openglWindowOutput->addObject(data);
 
     cout << "Total number of polylines: " << vectorOfPoints.size() << endl;
     cout << "Polylines data is set successfully" << endl;
@@ -122,7 +122,7 @@ void  CNC_Simulator::onLoadFileClick()
     }
     OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(inTri);
     QVector<OpenGlWidget::Data> dataList = QVector<OpenGlWidget::Data>{ data };
-    openglWindowInput->setData(dataList);
+    openglWindowInput->addObject(data);
 }
 
 void CNC_Simulator::readFile(const QString& inFileName)

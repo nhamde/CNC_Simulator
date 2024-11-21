@@ -107,7 +107,11 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 	Intersector intersector;
 	for (auto triangle : sortedTriangles)
 	{
-		IntersectionPtsOfEachTrs.push_back(intersector.intersect(triangle, yValue, tri));
+		SurfacePoint sp1 = tri.getRealPoint(triangle.P1());
+		SurfacePoint sp2 = tri.getRealPoint(triangle.P2());
+		SurfacePoint sp3 = tri.getRealPoint(triangle.P3());
+
+		IntersectionPtsOfEachTrs.push_back(intersector.intersect(sp1, sp2, sp3, yValue));
 	}
 
 	for (auto intersection : IntersectionPtsOfEachTrs)

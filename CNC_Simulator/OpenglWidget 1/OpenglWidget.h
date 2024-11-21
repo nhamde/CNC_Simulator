@@ -6,6 +6,7 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 #include <QMouseEvent>
+#include <vector>
 #include <QOpenGLVertexArrayObject>
 using namespace std;
 
@@ -78,4 +79,5 @@ private:
     QVector<DrawingObject> drawingObjects;
     QMap<int, int> idToIndex;
     bool isInitialized;
+
 };
