@@ -1,8 +1,7 @@
 ﻿#include "PathCreator.h"
 #include "Intersector.h"
-#include <unordered_map>
-#include<stdexcept>
-#include <iostream>
+#include <unordered_map> 
+#include <stdexcept>
 using namespace std;
 PathCreator::PathCreator()
 {
@@ -12,15 +11,14 @@ PathCreator::~PathCreator()
 {
 }
 
-vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& tri, double y_max, double y_min)
+vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& triangulation, double yMax, double yMin)
 {
-	vector<vector<SurfacePoint>> path;
-	double y = y_max;
-
-	for (; y >= y_min; y = y - 0.05)
-	{
-		vector<Triangle> yIntersecingTrs;
-		for (auto t:tri.Triangles)
+	vector<vector<SurfacePoint>> pathOfMesh;
+	double currentYAxis = yMax;
+	for (; currentYAxis >= yMin; currentYAxis = currentYAxis - 0.05)
+	{ 
+		vector<Triangle> trianglesAtYAxis;
+		for (auto t: triangulation.Triangles)
 		{
 			bool intersect = false;
 
@@ -28,29 +26,29 @@ vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& tri, double 
 			Point p2 = t.P2();
 			Point p3 = t.P3();
 
-			SurfacePoint sp1 = tri.getRealPoint(p1);
-			SurfacePoint sp2 = tri.getRealPoint(p2);
-			SurfacePoint sp3 = tri.getRealPoint(p3);
+			SurfacePoint sp1 = triangulation.getRealPoint(p1);
+			SurfacePoint sp2 = triangulation.getRealPoint(p2);
+			SurfacePoint sp3 = triangulation.getRealPoint(p3);
 
-			if ((sp1.Y() <= y && sp2.Y() > y) ||
-				(sp1.Y() > y && sp2.Y() <= y) ||
-				(sp1.Y() <= y && sp3.Y() > y) ||
-				(sp1.Y() > y && sp3.Y() <= y) ||
-				(sp2.Y() <= y && sp3.Y() > y) ||
-				(sp2.Y() > y && sp3.Y() <= y))
+			if ((sp1.Y() <= currentYAxis && sp2.Y() > currentYAxis) ||
+				(sp1.Y() > currentYAxis && sp2.Y() <= currentYAxis) ||
+				(sp1.Y() <= currentYAxis && sp3.Y() > currentYAxis) ||
+				(sp1.Y() > currentYAxis && sp3.Y() <= currentYAxis) ||
+				(sp2.Y() <= currentYAxis && sp3.Y() > currentYAxis) ||
+				(sp2.Y() > currentYAxis && sp3.Y() <= currentYAxis))
 			{ 
 				intersect = true; 
 			}
 			if (intersect)
 			{
-				yIntersecingTrs.push_back(t);
+				trianglesAtYAxis.push_back(t);
 			}
 		}
-		vector<Triangle> sortedTriangles = sortTriangles(yIntersecingTrs);
-		vector<SurfacePoint> sortedPoints = sortPoints(sortedTriangles, tri, y);
-		path.push_back(sortedPoints);
+		vector<Triangle> sortedTriangles = sortTriangles(trianglesAtYAxis);
+		vector<SurfacePoint> sortedPoints = sortPoints(sortedTriangles, triangulation, currentYAxis);
+		pathOfMesh.push_back(sortedPoints);
 	}
-	return path;
+	return pathOfMesh;
 }
 
 vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& coplanarTriangles)
@@ -93,7 +91,7 @@ vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& coplanarTriangles)
 	return sortedTriangles;
 }
 
-vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& tri, double yValue)
+vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& triangulation, double yAxisOfPlane)
 {
 	if (sortedTriangles.empty())
 	{
@@ -107,7 +105,7 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 	Intersector intersector;
 	for (auto triangle : sortedTriangles)
 	{
-		IntersectionPtsOfEachTrs.push_back(intersector.intersect(triangle, yValue, tri));
+		IntersectionPtsOfEachTrs.push_back(intersector.intersect(triangle, yAxisOfPlane, triangulation));
 	}
 
 	for (auto intersection : IntersectionPtsOfEachTrs)

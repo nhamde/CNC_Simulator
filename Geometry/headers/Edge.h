@@ -9,9 +9,9 @@ namespace Geometry
 		Point start;
 		Point end;
 
-		Edge(Point&, Point&);
+		Edge(Point& p1, Point& p2);
 		~Edge();
 
-		bool operator==(Edge&);
+		bool operator==(Edge& other);
 	};
 }

@@ -1,15 +1,19 @@
 #pragma once
 #include "Triangulation.h"
 using namespace Geometry;
+using namespace std;
 class PathCreator
 {
 private:
-	std::vector<Triangle> sortTriangles(std::vector<Triangle>&);	// To sort triangles which are intersecting the xz plane
-	std::vector<SurfacePoint> sortPoints(std::vector<Triangle>&, Triangulation&, double);	// To sort intersection points to form polyline
+	// To sort triangles which are intersecting the xz plane
+	vector<Triangle> sortTriangles(vector<Triangle>& triangles);	
+	// To sort intersection points to form polyline
+	vector<SurfacePoint> sortPoints(vector<Triangle>& sortedTriangles, Triangulation& triangulation, double yAxisOfPlane);
 public:
 	PathCreator();
 	~PathCreator();
-	std::vector<std::vector<SurfacePoint>> createPath(Triangulation& tri, double, double);	// Creates polylines for each xz plane
+	// Creates polylines for each xz plane
+	vector<vector<SurfacePoint>> createPath(Triangulation& triangulation, double yMax, double yMin);	
 	
 };
 
