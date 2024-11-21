@@ -2,6 +2,7 @@
 #include "Triangle.h"
 #include <vector>
 #include "SurfacePoint.h"
+#include "BoundingBox.h"
 namespace Geometry
 {
     class Triangle;
@@ -10,6 +11,8 @@ namespace Geometry
     public:
         std::vector<double> uniqueNumbers;
         std::vector<Triangle> Triangles;
+
+        BoundingBox b;
 
         Triangulation();
         ~Triangulation();

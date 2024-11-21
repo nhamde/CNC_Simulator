@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="headers\BoundingBox.h" />
     <ClInclude Include="headers\Edge.h" />
     <ClInclude Include="headers\Point.h" />
     <ClInclude Include="headers\SurfacePoint.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="headers\Triangulation.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BoundingBox.cpp" />
     <ClCompile Include="src\Edge.cpp" />
     <ClCompile Include="src\Point.cpp" />
     <ClCompile Include="src\SurfacePoint.cpp" />

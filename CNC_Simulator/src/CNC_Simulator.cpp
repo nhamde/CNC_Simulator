@@ -74,7 +74,7 @@ OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<
             data.vertices.push_back(point.Z());
             data.colors.push_back(1.0);
             data.colors.push_back(0.0);
-            data.colors.push_back(0.0);
+            data.colors.push_back(1.0);
         }
     }
     data.drawStyle = OpenGlWidget::DrawStyle::LINES;

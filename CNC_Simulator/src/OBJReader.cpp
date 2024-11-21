@@ -12,6 +12,7 @@
 #include "CNC_Simulator.h"
 #include <QDebug>
 #include <map>
+#include "BoundingBox.h"
 #define TOLERANCE 0.0000001
 using namespace Geometry;
 
@@ -62,7 +63,6 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
     std::string str3;
     std::vector<Point> normals;
     std::vector<Point> vertices;
-
     std::ifstream infile(fileName);
     assert(infile && "Error: Could not open file");
     if (infile.is_open())
@@ -77,6 +77,14 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
             if (linelist.value(0) == "v")
             {
                 vertices.push_back(vectorReader(linelist, uniqueMap, triangulation));
+               
+                //Getting Min max values for Bounding Box  
+                int size = vertices.size() - 1;
+                double x = triangulation.uniqueNumbers[vertices[size].X()];
+                double y = triangulation.uniqueNumbers[vertices[size].Y()];
+                double z = triangulation.uniqueNumbers[vertices[size].Z()];
+
+                triangulation.b.findMinMax(x, y, z);
             }
             if (linelist.value(0) == "vn")
             {

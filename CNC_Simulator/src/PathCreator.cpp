@@ -17,7 +17,7 @@ vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& tri, double 
 	vector<vector<SurfacePoint>> path;
 	double y = y_max;
 
-	for (; y >= y_min; y = y - 0.01)
+	for (; y >= y_min; y = y - 0.05)
 	{
 		vector<Triangle> yIntersecingTrs;
 		for (auto t:tri.Triangles)
