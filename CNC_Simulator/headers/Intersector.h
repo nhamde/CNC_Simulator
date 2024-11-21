@@ -1,7 +1,4 @@
 #include "Triangulation.h"
-#include "SurfacePoint.h"
-using namespace Geometry;
-using namespace std;
 
 class Intersector
 {
@@ -12,6 +9,6 @@ private:
 public:
 	Intersector();
 	~Intersector();
-	vector<SurfacePoint> intersect(SurfacePoint& sp1, SurfacePoint& sp2, SurfacePoint& sp3, double y);
+	std::vector<SurfacePoint> intersect(SurfacePoint& sp1, SurfacePoint& sp2, SurfacePoint& sp3, double y);
 
 };
