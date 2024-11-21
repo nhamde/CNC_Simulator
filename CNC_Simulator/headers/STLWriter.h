@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
-#include <vector>
 #include "Writer.h"
-#include "Triangle.h"
 #include "Triangulation.h"
 using namespace Geometry;
 

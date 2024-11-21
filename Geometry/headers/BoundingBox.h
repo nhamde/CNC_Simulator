@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 namespace Geometry 
 {
     class BoundingBox {
@@ -19,7 +18,7 @@ namespace Geometry
         BoundingBox();
         ~BoundingBox();
 
-        void findMinMax(double x, double y, double z);
+        void setMinMax(double x, double y, double z);
         //std::vector<std::vector<double>> generateVertices() const;
     };
 }

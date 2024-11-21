@@ -3,7 +3,6 @@
 #include <QFileDialog>
 #include "OBJReader.h"
 #include "PathCreator.h"
-#include "STLWriter.h"
 #include <iostream>
 using namespace std;
 
@@ -18,8 +17,8 @@ void CNC_Simulator::setupUi()
 
     graphicsSynchronizer = new GraphicsSynchronizer(openglWindowInput, openglWindowOutput);
 
-    layout->addWidget(loadFile, 0, 0, 1, 2);
-    layout->addWidget(simulate, 0, 4, 1, 2);
+    layout->addWidget(loadFile, 0, 0, 1, 3);
+    layout->addWidget(simulate, 0, 3, 1, 3);
     layout->addWidget(openglWindowInput, 1, 0, 1, 3);
     layout->addWidget(openglWindowOutput, 1, 3, 1, 3);
 

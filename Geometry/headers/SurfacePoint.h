@@ -14,9 +14,9 @@ namespace Geometry
 		SurfacePoint();
 		SurfacePoint(double, double, double);
 		~SurfacePoint();
-		double X();
-		double Y();
-		double Z();
+		double X() const;
+		double Y() const;
+		double Z() const;
 		friend std::ostream& operator<<(std::ostream& os, const SurfacePoint&);
 		bool operator==(const SurfacePoint& other) const;
 		bool operator!=(const SurfacePoint& other) const;

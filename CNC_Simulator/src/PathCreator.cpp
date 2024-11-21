@@ -55,48 +55,59 @@ vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& tri, double 
 
 vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& coplanarTriangles)
 {
-	if (coplanarTriangles.empty()) {
+	if (coplanarTriangles.empty()) 
+	{
 		return {};
 	}
 
-	vector<Triangle> sortedLoop;
-	sortedLoop.push_back(coplanarTriangles.front());
+	vector<Triangle> sortedTriangles;
+	sortedTriangles.push_back(coplanarTriangles.front());
 	coplanarTriangles.erase(coplanarTriangles.begin());
 
-	while (!coplanarTriangles.empty()) {
+	while (!coplanarTriangles.empty()) 
+	{
 		bool foundNext = false;
 
-		for (auto it = coplanarTriangles.begin(); it != coplanarTriangles.end(); ++it) {
-			if (sortedLoop.back().areAdjacent(*it)) {
-				sortedLoop.push_back(*it); 
+		for (auto it = coplanarTriangles.begin(); it != coplanarTriangles.end(); ++it) 
+		{
+			if (sortedTriangles.back().areAdjacent(*it)) 
+			{
+				sortedTriangles.push_back(*it); 
 				coplanarTriangles.erase(it);
 				foundNext = true;
 				break;
 			}
 		}
 
-		if (!foundNext) {
+		if (!foundNext) 
+		{
 			throw runtime_error("Triangles do not form a closed loop!");
 		}
 	}
 
-	if (!sortedLoop.front().areAdjacent(sortedLoop.back())) {
+	if (!sortedTriangles.front().areAdjacent(sortedTriangles.back())) 
+	{
 		throw runtime_error("The sorted triangles do not form a closed loop!");
 	}
 
-	return sortedLoop;
+	return sortedTriangles;
 }
 
-vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& tri, double y_value)
+vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& tri, double yValue)
 {
+	if (sortedTriangles.empty())
+	{
+		return {};
+	}
+
 	vector<vector<SurfacePoint>> IntersectionPtsOfEachTrs;
 	vector<SurfacePoint> sortedPoints;
 	unordered_map<SurfacePoint, int, SurfacePoint> map;
 
 	Intersector intersector;
-	for (auto t : sortedTriangles)
+	for (auto triangle : sortedTriangles)
 	{
-		IntersectionPtsOfEachTrs.push_back(intersector.intersect(t, y_value, tri));
+		IntersectionPtsOfEachTrs.push_back(intersector.intersect(triangle, yValue, tri));
 	}
 
 	for (auto intersection : IntersectionPtsOfEachTrs)

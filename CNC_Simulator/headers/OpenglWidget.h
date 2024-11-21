@@ -6,7 +6,6 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 #include <QMouseEvent>
-#include <vector>
 #include <QOpenGLVertexArrayObject>
 using namespace std;
 

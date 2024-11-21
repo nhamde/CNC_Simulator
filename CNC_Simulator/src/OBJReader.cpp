@@ -84,7 +84,7 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
                 double y = triangulation.uniqueNumbers[vertices[size].Y()];
                 double z = triangulation.uniqueNumbers[vertices[size].Z()];
 
-                triangulation.b.findMinMax(x, y, z);
+                triangulation.box.setMinMax(x, y, z);
             }
             if (linelist.value(0) == "vn")
             {

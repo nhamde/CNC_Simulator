@@ -5,7 +5,6 @@
 #include "BoundingBox.h"
 namespace Geometry
 {
-    class Triangle;
     class Triangulation
     {
     public:
@@ -18,6 +17,6 @@ namespace Geometry
         ~Triangulation();
 
         SurfacePoint getRealPoint(const Point&) const;
-
+        BoundingBox box;
     };
 }

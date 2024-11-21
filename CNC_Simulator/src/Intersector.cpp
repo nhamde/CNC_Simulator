@@ -1,5 +1,4 @@
 #include "Intersector.h"
-#include "SurfacePoint.h"
 #define TOLERANCE 0.0000001
 using namespace Geometry;
 
@@ -11,11 +10,12 @@ Intersector::~Intersector()
 {
 }
 
-SurfacePoint* Intersector::intersection(SurfacePoint& p1, SurfacePoint& p2, double y)
+SurfacePoint* Intersector::intersection(const SurfacePoint& p1, SurfacePoint& p2, double yValue)
 {
-    if ((p1.Y() - y) * (p2.Y() - y) <= 0) 
+    // check if the edge intersects the y-axis of the plane
+    if ((p1.Y() - yValue) * (p2.Y() - yValue) <= 0)
     {
-        double ty = (y - p1.Y()) / (p2.Y() - p1.Y());
+        double ty = (yValue - p1.Y()) / (p2.Y() - p1.Y());   // Interpolating Intersection Point
         double x = p1.X() + ty * (p2.X() - p1.X());
         double z = p1.Z() + ty * (p2.Z() - p1.Z());
 
@@ -29,9 +29,9 @@ SurfacePoint* Intersector::intersection(SurfacePoint& p1, SurfacePoint& p2, doub
         {
             z = roundedZ;
         }
-        return new SurfacePoint(x, y, z);
+        return new SurfacePoint(x, yValue, z);
     }
-    return nullptr;
+    return nullptr; //if no intersection is there then return nullptr
 }
 
 vector<SurfacePoint> Intersector::intersect(Triangle& t, double y, const Triangulation& tri)
@@ -46,10 +46,12 @@ vector<SurfacePoint> Intersector::intersect(Triangle& t, double y, const Triangu
     SurfacePoint* ptOnEdge2 = intersection(sp3, sp2, y);
     SurfacePoint* ptOnEdge3 = intersection(sp1, sp3, y);
 
+    // Lambda function to add a unique intersection point to the result vector
     auto addUniquePoint = [&intersectingPts](SurfacePoint* pt) 
         {
             if (pt) 
             {
+                // Check if the point is already in the list to avoid duplicates
                 if (find(intersectingPts.begin(), intersectingPts.end(), *pt) == intersectingPts.end()) 
                 {
                     intersectingPts.push_back(*pt);
@@ -57,9 +59,15 @@ vector<SurfacePoint> Intersector::intersect(Triangle& t, double y, const Triangu
             }
         };
 
+    // Add the intersection points of each edge if they are valid and unique
     addUniquePoint(ptOnEdge1);
     addUniquePoint(ptOnEdge2);
     addUniquePoint(ptOnEdge3);
+
+    //  Deleting pointers to avoid memory leak
+    delete ptOnEdge1;
+    delete ptOnEdge2;
+    delete ptOnEdge3;
 
     return intersectingPts;
 }

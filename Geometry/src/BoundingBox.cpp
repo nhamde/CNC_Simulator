@@ -1,7 +1,13 @@
 #include "BoundingBox.h"
-#include <algorithm>.
+#include <algorithm>
 using namespace Geometry;
 Geometry::BoundingBox::BoundingBox()
+    :   xMin(std::numeric_limits<double>::max()),
+        yMin(std::numeric_limits<double>::max()),
+        zMin(std::numeric_limits<double>::max()),
+        xMax(std::numeric_limits<double>::lowest()),
+        yMax(std::numeric_limits<double>::lowest()),
+        zMax(std::numeric_limits<double>::lowest())
 {
 }
 
@@ -9,7 +15,7 @@ Geometry::BoundingBox::~BoundingBox()
 {
 }
 
-void Geometry::BoundingBox::findMinMax(double x, double y, double z)
+void Geometry::BoundingBox::setMinMax(double x, double y, double z)
 {
     xMin = std::min(xMin, x);
     yMin = std::min(yMin, y);

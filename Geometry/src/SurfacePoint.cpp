@@ -19,17 +19,17 @@ SurfacePoint::SurfacePoint(double _x, double _y, double _z)
 SurfacePoint::~SurfacePoint()
 {
 }
-double SurfacePoint::X()
+double SurfacePoint::X() const
 {
 	return x;
 }
  
-double SurfacePoint::Y()
+double SurfacePoint::Y() const
 {
 	return y;
 }
  
-double SurfacePoint::Z()
+double SurfacePoint::Z() const
 {
 	return z;
 }
