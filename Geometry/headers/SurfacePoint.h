@@ -14,7 +14,6 @@ namespace Geometry
 		SurfacePoint();
 		SurfacePoint(double, double, double);
 		~SurfacePoint();
-		SurfacePoint* next = nullptr;
 		double X();
 		double Y();
 		double Z();
