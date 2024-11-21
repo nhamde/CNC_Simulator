@@ -1,4 +1,5 @@
 #pragma once
+
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
@@ -8,7 +9,7 @@
 #include <QMouseEvent>
 #include <vector>
 #include <QOpenGLVertexArrayObject>
-using namespace std;
+
 
 class OpenGlWidget : public QOpenGLWidget, protected QOpenGLFunctions {
     Q_OBJECT
@@ -41,13 +42,12 @@ public:
     ~OpenGlWidget() override;
 
     void setData(QVector<Data> inData);
-
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
     void sync(float zoomLevel, QVector3D rotation, QVector2D panOffset);
 
 signals:
-        void viewChange(float zoomLevel, QVector3D rotation, QVector2D panOffset);
+    void viewChange(float zoomLevel, QVector3D rotation, QVector2D panOffset);
 
 protected:
     void initializeGL() override;
@@ -61,6 +61,8 @@ protected:
 private:
     void updateModelViewMatrix();
     void createArrayAndBuffers();
+
+private:
 
     QOpenGLShaderProgram shaderProgram;
     QOpenGLShaderProgram shaderProgram1;

@@ -1,4 +1,5 @@
 #include "SurfacePoint.h"
+#define TOLERANCE 1e-6
 using namespace Geometry;
 
 SurfacePoint::SurfacePoint()
@@ -49,7 +50,7 @@ bool SurfacePoint::operator<(const SurfacePoint& other) const
  
 bool SurfacePoint::operator==(const SurfacePoint& other) const
 {
-	return x == other.x && y == other.y && z == other.z;
+	return fabs(x - other.x) < TOLERANCE && fabs(y - other.y) < TOLERANCE && fabs(z - other.z) < TOLERANCE;
 }
 bool SurfacePoint::operator!=(const SurfacePoint& other) const
 {

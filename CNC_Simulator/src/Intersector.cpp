@@ -1,5 +1,6 @@
 #include "Intersector.h"
 #include "SurfacePoint.h"
+#define TOLERANCE 0.0000001
 using namespace Geometry;
 
 Intersector::Intersector()
@@ -18,6 +19,16 @@ SurfacePoint* Intersector::intersection(SurfacePoint& p1, SurfacePoint& p2, doub
         double x = p1.X() + ty * (p2.X() - p1.X());
         double z = p1.Z() + ty * (p2.Z() - p1.Z());
 
+        double roundedX = std::round(x);
+        if (std::abs(roundedX - x) <= TOLERANCE)
+        {
+            x = roundedX;
+        }
+        double roundedZ = std::round(z);
+        if (std::abs(roundedZ - z) <= TOLERANCE)
+        {
+            z = roundedZ;
+        }
         return new SurfacePoint(x, y, z);
     }
     return nullptr;
@@ -30,8 +41,6 @@ vector<SurfacePoint> Intersector::intersect(Triangle& t, double y, const Triangu
     SurfacePoint sp1 = tri.getRealPoint(t.P1());
     SurfacePoint sp2 = tri.getRealPoint(t.P2());
     SurfacePoint sp3 = tri.getRealPoint(t.P3());
-
-    cout << sp1 << sp2 << sp3 << endl;
 
     SurfacePoint* ptOnEdge1 = intersection(sp1, sp2, y);
     SurfacePoint* ptOnEdge2 = intersection(sp3, sp2, y);

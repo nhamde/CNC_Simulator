@@ -23,5 +23,6 @@ namespace Geometry
 		bool operator!=(const SurfacePoint& other) const;
 		bool operator()(const SurfacePoint& other) const;
 		bool operator<(const SurfacePoint& other) const;
+		friend std::ostream& Geometry::operator<<(std::ostream& os, const SurfacePoint& sp);
 	};
 }

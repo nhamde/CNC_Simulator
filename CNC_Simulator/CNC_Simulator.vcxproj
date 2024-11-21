@@ -112,6 +112,7 @@
     <QtMoc Include="headers\CNC_Simulator.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="headers\GraphicsSynchronizer.h" />
     <ClInclude Include="headers\Intersector.h" />
     <ClInclude Include="headers\PathCreator.h" />
     <ClInclude Include="headers\Reader.h" />
@@ -122,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CNC_Simulator.cpp" />
+    <ClCompile Include="src\GraphicsSynchronizer.cpp" />
     <ClCompile Include="src\Intersector.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\OBJReader.cpp" />
@@ -130,6 +132,12 @@
     <ClCompile Include="src\Reader.cpp" />
     <ClCompile Include="src\STLWriter.cpp" />
     <ClCompile Include="src\Writer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\shadedFrag.glsl" />
+    <None Include="shaders\wireFrag.glsl" />
+    <None Include="shaders\shadedVert.glsl" />
+    <None Include="shaders\wireVert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

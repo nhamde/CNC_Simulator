@@ -21,6 +21,9 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{2f650f35-ffb8-47bc-b032-9ddbb1d21b4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="CNC_Simulator.qrc">
@@ -35,6 +38,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="headers\OpenglWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="headers\GraphicsSynchronizer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -86,5 +92,22 @@
     <ClCompile Include="src\Writer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GraphicsSynchronizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\shadedFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\wireFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\shadedVert.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\wireVert.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

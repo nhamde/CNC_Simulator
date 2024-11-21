@@ -12,12 +12,12 @@ PathCreator::~PathCreator()
 {
 }
 
-vector<vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tri, double y_max, double y_min)
+vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& tri, double y_max, double y_min)
 {
 	vector<vector<SurfacePoint>> path;
 	double y = y_max;
 
-	for (; y >= y_min; y = y - 1)
+	for (; y >= y_min; y = y - 0.01)
 	{
 		vector<Triangle> yIntersecingTrs;
 		for (auto t:tri.Triangles)
@@ -49,7 +49,6 @@ vector<vector<SurfacePoint>> PathCreator::CreatePath(Triangulation& tri, double 
 		vector<Triangle> sortedTriangles = sortTriangles(yIntersecingTrs);
 		vector<SurfacePoint> sortedPoints = sortPoints(sortedTriangles, tri, y);
 		path.push_back(sortedPoints);
-		cout << "------------------>One polyline ends<------------------" << endl;
 	}
 	return path;
 }

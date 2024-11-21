@@ -15,5 +15,6 @@ namespace Geometry
         ~Triangulation();
 
         SurfacePoint getRealPoint(const Point&) const;
+
     };
 }

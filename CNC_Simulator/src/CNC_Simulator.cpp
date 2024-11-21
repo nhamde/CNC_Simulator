@@ -11,14 +11,14 @@ void CNC_Simulator::setupUi()
 {
     loadFile = new QPushButton("Load File", this);
     simulate = new QPushButton("Simulate", this);
-    //translate = new QPushButton("Translate", this);
     openglWindowInput = new OpenGlWidget(this);
     openglWindowOutput = new OpenGlWidget(this);
 
     QGridLayout* layout = new QGridLayout(this);
 
+    graphicsSynchronizer = new GraphicsSynchronizer(openglWindowInput, openglWindowOutput);
+
     layout->addWidget(loadFile, 0, 0, 1, 2);
-    //layout->addWidget(translate, 0, 2, 1, 2);
     layout->addWidget(simulate, 0, 4, 1, 2);
     layout->addWidget(openglWindowInput, 1, 0, 1, 3);
     layout->addWidget(openglWindowOutput, 1, 3, 1, 3);
@@ -28,29 +28,39 @@ void CNC_Simulator::setupUi()
     centralWidget->setLayout(layout);
 }
 
-//OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation)
-//{
-//    OpenGlWidget::Data data;
-//    for (Triangle triangle : inTriangulation.Triangles)
-//    {
-//        for (Point point : triangle.Points())
-//        {
-//            data.vertices.push_back(inTriangulation.uniqueNumbers[point.X()]);
-//            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Y()]);
-//            data.vertices.push_back(inTriangulation.uniqueNumbers[point.Z()]);
-//        }
-//
-//        Point normal = triangle.Normal();
-//
-//        for (size_t i = 0; i < 3; i++)
-//        {
-//            data.normals.push_back(inTriangulation.uniqueNumbers[normal.X()]);
-//            data.normals.push_back(inTriangulation.uniqueNumbers[normal.Y()]);
-//            data.normals.push_back(inTriangulation.uniqueNumbers[normal.Z()]);
-//        }
-//    }
-//    return data;
-//}
+OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation)
+{
+    OpenGlWidget::Data data;
+    for (Triangle triangle : inTriangulation.Triangles)
+    {
+        vector<Point> pts = triangle.Points();
+        Point normal = triangle.Normal();
+
+        for (size_t i = 0; i < pts.size(); i++)
+        {
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].X()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Y()]);
+            data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Z()]);
+            cout  << inTriangulation.getRealPoint(pts[i]) << endl;
+            data.normals.push_back(inTriangulation.uniqueNumbers[normal.X()]);
+            data.normals.push_back(inTriangulation.uniqueNumbers[normal.Y()]);
+            data.normals.push_back(inTriangulation.uniqueNumbers[normal.Z()]);
+            data.colors.push_back(1.0);
+            data.colors.push_back(0.0);
+            data.colors.push_back(0.0);
+        }
+
+        /*for (size_t i = 0; i < 3; i++)
+        {
+            data.colors.push_back(1.0);
+            data.colors.push_back(0.0);
+            data.colors.push_back(0.0);
+        }*/
+
+    }
+    data.drawStyle = OpenGlWidget::DrawStyle::LINES;
+    return data;
+}
 
 OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<vector<SurfacePoint>>& polylines)
 {
@@ -62,8 +72,12 @@ OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<
             data.vertices.push_back(point.X());
             data.vertices.push_back(point.Y());
             data.vertices.push_back(point.Z());
+            data.colors.push_back(1.0);
+            data.colors.push_back(0.0);
+            data.colors.push_back(0.0);
         }
     }
+    data.drawStyle = OpenGlWidget::DrawStyle::LINES;
     return data;
 }
 
@@ -82,22 +96,14 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.CreatePath(inTri, 0.9, -1);
+    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 1.0, -1.0);
 
     OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
-    openglWindowInput->setData(data);
+    QVector<OpenGlWidget::Data> dataList = QVector<OpenGlWidget::Data>{ data };
+    openglWindowOutput->setData(dataList);
+
     cout << "Total number of polylines: " << vectorOfPoints.size() << endl;
     cout << "Polylines data is set successfully" << endl;
-
-    for (auto line : vectorOfPoints)
-    {
-        cout << "new Line" << endl;
-        for (auto pts : line)
-        {
-            cout << pts << endl;
-        }
-        cout << endl;
-    }
 }
 
 void  CNC_Simulator::onLoadFileClick()
@@ -115,59 +121,10 @@ void  CNC_Simulator::onLoadFileClick()
         msgBox.setText("No file was selected");
         msgBox.exec();
     }
+    OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(inTri);
+    QVector<OpenGlWidget::Data> dataList = QVector<OpenGlWidget::Data>{ data };
+    openglWindowInput->setData(dataList);
 }
-
-//void CNC_Simulator::onTranslateClick()
-//{
-//    if (!inputFilePath.isEmpty())
-//    {
-//        QFileDialog dialog(this);
-//
-//        dialog.setFileMode(QFileDialog::Directory);
-//
-//        QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-//            "/home",
-//            QFileDialog::ShowDirsOnly
-//            | QFileDialog::DontResolveSymlinks);
-//
-//        // Check if directory is selected
-//        if (!dir.isEmpty())
-//        {
-//            QString exportFileName;
-//
-//            //if (inputFilePath.endsWith(".stl", Qt::CaseInsensitive))
-//            //{
-//            //    exportFileName = QDir(dir).filePath("output.obj");
-//            //    ObjWriter writer;
-//            //    writer.write(exportFileName.toStdString(), triangulation);
-//
-//            //    // reload file to check and load in output renderer
-//            //    OBJReader reader;
-//            //    reader.read(exportFileName.toStdString(), triangulation);
-//            //}
-//
-//            if (inputFilePath.endsWith(".obj", Qt::CaseInsensitive))
-//            {
-//                exportFileName = QDir(dir).filePath("output.stl");
-//                STLWriter writer;
-//                writer.write(exportFileName.toStdString(), inTri);
-//            }
-//
-//            OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(inTri);
-//            openglWindowInput->setData(data);
-//        }
-//        else
-//        {
-//            msgBox.setText("No directory was selected!");
-//            msgBox.exec();
-//        }
-//    }
-//    else
-//    {
-//        msgBox.setText("Input file was not loaded!");
-//        msgBox.exec();
-//    }
-//}
 
 void CNC_Simulator::readFile(const QString& inFileName)
 {
