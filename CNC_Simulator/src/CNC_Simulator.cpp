@@ -40,7 +40,6 @@ OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Tr
             data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].X()]);
             data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Y()]);
             data.vertices.push_back(inTriangulation.uniqueNumbers[pts[i].Z()]);
-            cout  << inTriangulation.getRealPoint(pts[i]) << endl;
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.X()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.Y()]);
             data.normals.push_back(inTriangulation.uniqueNumbers[normal.Z()]);
@@ -48,14 +47,6 @@ OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Tr
             data.colors.push_back(0.0);
             data.colors.push_back(0.0);
         }
-
-        /*for (size_t i = 0; i < 3; i++)
-        {
-            data.colors.push_back(1.0);
-            data.colors.push_back(0.0);
-            data.colors.push_back(0.0);
-        }*/
-
     }
     data.drawStyle = OpenGlWidget::DrawStyle::LINES;
     return data;
