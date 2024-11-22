@@ -5,7 +5,7 @@ using namespace std;
 class PathCreator
 {
 private:
-	// To sort triangles which are intersecting the xz plane
+	// To sort triangles which are currently at yAxis of the Plane
 	vector<Triangle> sortTriangles(vector<Triangle>& triangles);	
 	// To sort intersection points to form polyline
 	vector<SurfacePoint> sortPoints(vector<Triangle>& sortedTriangles, Triangulation& triangulation, double yAxisOfPlane);

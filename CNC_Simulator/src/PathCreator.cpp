@@ -18,17 +18,13 @@ vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& triangulatio
 	for (; currentYAxis >= yMin; currentYAxis = currentYAxis - 0.05)
 	{ 
 		vector<Triangle> trianglesAtYAxis;
-		for (auto t: triangulation.Triangles)
+		for (auto triangle: triangulation.Triangles)
 		{
 			bool intersect = false;
 
-			Point p1 = t.P1();
-			Point p2 = t.P2();
-			Point p3 = t.P3();
-
-			SurfacePoint sp1 = triangulation.getRealPoint(p1);
-			SurfacePoint sp2 = triangulation.getRealPoint(p2);
-			SurfacePoint sp3 = triangulation.getRealPoint(p3);
+			SurfacePoint sp1 = triangulation.getRealPoint(triangle.P1());
+			SurfacePoint sp2 = triangulation.getRealPoint(triangle.P2());
+			SurfacePoint sp3 = triangulation.getRealPoint(triangle.P3());
 
 			if ((sp1.Y() <= currentYAxis && sp2.Y() > currentYAxis) ||
 				(sp1.Y() > currentYAxis && sp2.Y() <= currentYAxis) ||
@@ -41,7 +37,7 @@ vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& triangulatio
 			}
 			if (intersect)
 			{
-				trianglesAtYAxis.push_back(t);
+				trianglesAtYAxis.push_back(triangle);
 			}
 		}
 		vector<Triangle> sortedTriangles = sortTriangles(trianglesAtYAxis);
@@ -105,7 +101,10 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 	Intersector intersector;
 	for (auto triangle : sortedTriangles)
 	{
-		IntersectionPtsOfEachTrs.push_back(intersector.intersect(triangle, yAxisOfPlane, triangulation));
+		SurfacePoint p1 = triangulation.getRealPoint(triangle.P1());
+		SurfacePoint p2 = triangulation.getRealPoint(triangle.P2());
+		SurfacePoint p3 = triangulation.getRealPoint(triangle.P3());
+		IntersectionPtsOfEachTrs.push_back(intersector.intersect(p1, p2, p3, yAxisOfPlane));
 	}
 
 	for (auto intersection : IntersectionPtsOfEachTrs)
