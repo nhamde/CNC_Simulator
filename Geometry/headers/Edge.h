@@ -5,6 +5,8 @@ namespace Geometry
 {
 	class Edge
 	{
+	private:
+		bool operator==(Edge&);
 	public:
 		Point start;
 		Point end;
@@ -12,6 +14,5 @@ namespace Geometry
 		Edge(Point&, Point&);
 		~Edge();
 
-		bool operator==(Edge&);
 	};
 }

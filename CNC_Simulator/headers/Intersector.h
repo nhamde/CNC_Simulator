@@ -5,11 +5,11 @@ class Intersector
 {
 private:
 	//This returns the boundary point where the intersection takes place
-	SurfacePoint* intersection(const Geometry::SurfacePoint& p1, const Geometry::SurfacePoint& p2, double yIntersectingPlane) ;
+	Geometry::SurfacePoint* intersection(const Geometry::SurfacePoint& surfacePoint1, const Geometry::SurfacePoint& surfacePoint2, double yIntersectingPlane) ;
 
 public:
 	Intersector();
 	~Intersector();
-	std::vector<SurfacePoint> intersect(const Geometry::SurfacePoint& sp1, const Geometry::SurfacePoint& sp2, const Geometry::SurfacePoint& sp3, double yIntersectingPlane);
+	std::vector<Geometry::SurfacePoint> intersect(const Geometry::SurfacePoint& surfacePoint1, const Geometry::SurfacePoint& surfacePoint2, const Geometry::SurfacePoint& surfacePoint3, double yIntersectingPlane);
 
 };

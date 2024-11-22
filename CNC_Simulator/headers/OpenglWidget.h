@@ -33,6 +33,7 @@ private:
         QOpenGLBuffer vbo;
         size_t numVertices;
         DrawStyle drawStyle;
+        int id;
     };
 
 public:
@@ -62,6 +63,7 @@ private:
     bool loadShaders();
     void updateModelViewMatrix();
     int buildDrawingObjects(Data data);
+    int objId;
 
     QOpenGLShaderProgram shadedShader;
     QOpenGLShaderProgram wireShader;
@@ -76,6 +78,5 @@ private:
     QPoint lastMousePosition;
 
     QVector<DrawingObject> drawingObjects;
-    QMap<int, int> idToIndex;
     bool isInitialized;
 };

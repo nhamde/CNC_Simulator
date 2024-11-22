@@ -48,7 +48,7 @@ OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Tr
             data.colors.push_back(0.0);
         }
     }
-    data.drawStyle = OpenGlWidget::DrawStyle::LINES;
+    data.drawStyle = OpenGlWidget::DrawStyle::TRIANGLES;
     return data;
 }
 
@@ -64,7 +64,7 @@ OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<
             data.vertices.push_back(point.Z());
             data.colors.push_back(1.0);
             data.colors.push_back(0.0);
-            data.colors.push_back(1.0);
+            data.colors.push_back(0.0);
         }
     }
     data.drawStyle = OpenGlWidget::DrawStyle::LINES;
@@ -86,10 +86,9 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 1.0, -1.0);
+    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 20.0, -20.0);
 
     OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
-    QVector<OpenGlWidget::Data> dataList = QVector<OpenGlWidget::Data>{ data };
     openglWindowOutput->addObject(data);
 
     cout << "Total number of polylines: " << vectorOfPoints.size() << endl;
@@ -112,7 +111,6 @@ void  CNC_Simulator::onLoadFileClick()
         msgBox.exec();
     }
     OpenGlWidget::Data data = convertTrianglulationToGraphicsObject(inTri);
-    QVector<OpenGlWidget::Data> dataList = QVector<OpenGlWidget::Data>{ data };
     openglWindowInput->addObject(data);
 }
 
