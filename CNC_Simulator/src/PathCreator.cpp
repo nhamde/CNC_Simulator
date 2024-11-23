@@ -93,7 +93,7 @@ vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& coplanarTriangles)
 	return sortedTriangles;
 }
 
-vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& tri, double yValue)
+vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, Triangulation& tri, double yValueOfXZPlane)
 {
 	if (sortedTriangles.empty())
 	{
@@ -111,7 +111,7 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 		SurfacePoint sp2 = tri.getRealPoint(triangle.P2());
 		SurfacePoint sp3 = tri.getRealPoint(triangle.P3());
 
-		IntersectionPtsOfEachTrs.push_back(intersector.intersect(sp1, sp2, sp3, yValue));
+		IntersectionPtsOfEachTrs.push_back(intersector.triangleXZPlaneIntersection(sp1, sp2, sp3, yValueOfXZPlane));
 	}
 
 	for (auto intersection : IntersectionPtsOfEachTrs)

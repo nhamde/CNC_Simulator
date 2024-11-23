@@ -11,12 +11,12 @@ Intersector::~Intersector()
 {
 }
 
-SurfacePoint* Intersector::intersection(const SurfacePoint& p1, const SurfacePoint& p2, double yIntersectingPlane)
+SurfacePoint* Intersector::edgeXZPlaneIntersection(const SurfacePoint& p1, const SurfacePoint& p2, double yValueOfXZPlane)
 {
     // check if the edge intersects the y-axis of the plane
-    if ((p1.Y() - yIntersectingPlane) * (p2.Y() - yIntersectingPlane) <= 0)
+    if ((p1.Y() - yValueOfXZPlane) * (p2.Y() - yValueOfXZPlane) <= 0)
     {
-        double interpolatingConst = (yIntersectingPlane - p1.Y()) / (p2.Y() - p1.Y());   // Interpolating Intersection Point
+        double interpolatingConst = (yValueOfXZPlane - p1.Y()) / (p2.Y() - p1.Y());   // Interpolating Intersection Point
         double x = p1.X() + interpolatingConst * (p2.X() - p1.X());
         double z = p1.Z() + interpolatingConst * (p2.Z() - p1.Z());
 
@@ -30,18 +30,18 @@ SurfacePoint* Intersector::intersection(const SurfacePoint& p1, const SurfacePoi
         {
             z = roundedZ;
         }
-        return new SurfacePoint(x, yIntersectingPlane, z);
+        return new SurfacePoint(x, yValueOfXZPlane, z);
     }
     return nullptr; //if no intersection is there then return nullptr
 }
 
-vector<SurfacePoint> Intersector::intersect(const SurfacePoint& sp1, const SurfacePoint& sp2, const SurfacePoint& sp3, double yIntersectingPlane)
+vector<SurfacePoint> Intersector::triangleXZPlaneIntersection(const SurfacePoint& sp1, const SurfacePoint& sp2, const SurfacePoint& sp3, double yValueOfXZPlane)
 {
     vector<SurfacePoint> intersectingPts;
 
-    SurfacePoint* ptOnEdge1 = intersection(sp1, sp2, yIntersectingPlane);
-    SurfacePoint* ptOnEdge2 = intersection(sp3, sp2, yIntersectingPlane);
-    SurfacePoint* ptOnEdge3 = intersection(sp1, sp3, yIntersectingPlane);
+    SurfacePoint* ptOnEdge1 = edgeXZPlaneIntersection(sp1, sp2, yValueOfXZPlane);
+    SurfacePoint* ptOnEdge2 = edgeXZPlaneIntersection(sp3, sp2, yValueOfXZPlane);
+    SurfacePoint* ptOnEdge3 = edgeXZPlaneIntersection(sp1, sp3, yValueOfXZPlane);
 
     // Lambda function to add a unique intersection point to the result vector
     auto addUniquePoint = [&intersectingPts](SurfacePoint* pt) 

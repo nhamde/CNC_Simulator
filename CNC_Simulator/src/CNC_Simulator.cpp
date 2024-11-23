@@ -86,7 +86,7 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 20.0, -20.0);
+    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 1, -1);
 
     OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
     openglWindowOutput->addObject(data);
