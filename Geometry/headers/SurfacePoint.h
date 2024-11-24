@@ -17,11 +17,7 @@ namespace Geometry
 		double X() const;
 		double Y() const;
 		double Z() const;
-		friend std::ostream& operator<<(std::ostream& os, const SurfacePoint&);
 		bool operator==(const SurfacePoint& other) const;
-		bool operator!=(const SurfacePoint& other) const;
 		bool operator()(const SurfacePoint& other) const;
-		bool operator<(const SurfacePoint& other) const;
-		friend std::ostream& Geometry::operator<<(std::ostream& os, const SurfacePoint& sp);
 	};
 }

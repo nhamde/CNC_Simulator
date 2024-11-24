@@ -12,7 +12,6 @@
 #include "CNC_Simulator.h"
 #include <QDebug>
 #include <map>
-#include "BoundingBox.h"
 #define TOLERANCE 0.0000001
 using namespace Geometry;
 
@@ -63,6 +62,15 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
     std::string str3;
     std::vector<Point> normals;
     std::vector<Point> vertices;
+
+    // Initialize min and max values for bounding box
+    double minX = std::numeric_limits<double>::max();
+    double minY = std::numeric_limits<double>::max();
+    double minZ = std::numeric_limits<double>::max();
+    double maxX = std::numeric_limits<double>::lowest();
+    double maxY = std::numeric_limits<double>::lowest();
+    double maxZ = std::numeric_limits<double>::lowest();
+
     std::ifstream infile(fileName);
     assert(infile && "Error: Could not open file");
     if (infile.is_open())
@@ -84,7 +92,14 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
                 double y = triangulation.uniqueNumbers[vertices[size].Y()];
                 double z = triangulation.uniqueNumbers[vertices[size].Z()];
 
-                triangulation.box.setMinMax(x, y, z);
+                // Update bounding box min and max values
+                minX = std::min(minX, x);
+                minY = std::min(minY, y);
+                minZ = std::min(minZ, z);
+                maxX = std::max(maxX, x);
+                maxY = std::max(maxY, y);
+                maxZ = std::max(maxZ, z);
+
             }
             if (linelist.value(0) == "vn")
             {
@@ -107,4 +122,9 @@ void OBJReader::read(const std::string& fileName, Triangulation& triangulation)
             }
         }
     }
+
+    // Create bounding box using the calculated min and max values
+    SurfacePoint lowestBound(minX, minY, minZ);
+    SurfacePoint highestBound(maxX, maxY, maxZ);
+    triangulation.boundingBox = BoundingBox(lowestBound, highestBound);
 }

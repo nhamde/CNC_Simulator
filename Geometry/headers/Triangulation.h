@@ -3,6 +3,7 @@
 #include <vector>
 #include "SurfacePoint.h"
 #include "BoundingBox.h"
+#include <limits>
 namespace Geometry
 {
     class Triangulation
@@ -11,12 +12,11 @@ namespace Geometry
         std::vector<double> uniqueNumbers;
         std::vector<Triangle> Triangles;
 
-        BoundingBox b;
+        BoundingBox boundingBox;
 
         Triangulation();
         ~Triangulation();
 
         SurfacePoint getRealPoint(const Point&) const;
-        BoundingBox box;
     };
 }

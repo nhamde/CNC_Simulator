@@ -17,10 +17,10 @@ void CNC_Simulator::setupUi()
 
     graphicsSynchronizer = new GraphicsSynchronizer(openglWindowInput, openglWindowOutput);
 
-    layout->addWidget(loadFile, 0, 0, 1, 3);
-    layout->addWidget(simulate, 0, 3, 1, 3);
-    layout->addWidget(openglWindowInput, 1, 0, 1, 3);
-    layout->addWidget(openglWindowOutput, 1, 3, 1, 3);
+    layout->addWidget(loadFile, 0, 0, 1, 1);
+    layout->addWidget(simulate, 0, 1, 1, 1);
+    layout->addWidget(openglWindowInput, 1, 0, 1, 1);
+    layout->addWidget(openglWindowOutput, 1, 1, 1, 1);
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -71,6 +71,23 @@ OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<
     return data;
 }
 
+OpenGlWidget::Data CNC_Simulator::convertBoundingBoxToGraphicsObject(Triangulation& tri)
+{
+    OpenGlWidget::Data data;
+    vector<SurfacePoint> bounds = tri.boundingBox.getBounds();
+    for (auto pt : bounds)
+    {
+        data.vertices.push_back(pt.X());
+        data.vertices.push_back(pt.Y());
+        data.vertices.push_back(pt.Z());
+        data.colors.push_back(1.0);
+        data.colors.push_back(0.0);
+        data.colors.push_back(0.0);
+    }
+    data.drawStyle = OpenGlWidget::DrawStyle::LINES;
+    return data;
+}
+
 CNC_Simulator::CNC_Simulator(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -88,12 +105,14 @@ void CNC_Simulator::onSimulateClick()
     PathCreator pc;
     vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 1, -1);
 
-    OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
+    //OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
+    OpenGlWidget::Data data =  convertBoundingBoxToGraphicsObject(inTri);
     openglWindowOutput->addObject(data);
 
     cout << "Total number of polylines: " << vectorOfPoints.size() << endl;
     cout << "Polylines data is set successfully" << endl;
 }
+
 
 void  CNC_Simulator::onLoadFileClick()
 {

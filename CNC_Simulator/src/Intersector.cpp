@@ -20,16 +20,6 @@ SurfacePoint* Intersector::edgeXZPlaneIntersection(const SurfacePoint& p1, const
         double x = p1.X() + interpolatingConst * (p2.X() - p1.X());
         double z = p1.Z() + interpolatingConst * (p2.Z() - p1.Z());
 
-        double roundedX = std::round(x);
-        if (std::abs(roundedX - x) <= TOLERANCE)
-        {
-            x = roundedX;
-        }
-        double roundedZ = std::round(z);
-        if (std::abs(roundedZ - z) <= TOLERANCE)
-        {
-            z = roundedZ;
-        }
         return new SurfacePoint(x, yValueOfXZPlane, z);
     }
     return nullptr; //if no intersection is there then return nullptr

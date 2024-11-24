@@ -1,5 +1,6 @@
 #pragma once
 #include "Triangulation.h"
+#include "BoundingBox.h"
 #include <QPushButton>
 #include "OpenglWidget.h"
 #include <QMessageBox>
@@ -16,6 +17,7 @@ private:
     void setupUi();
     OpenGlWidget::Data convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation);
     OpenGlWidget::Data convertPolylinesToGraphicsObject(const vector<vector<SurfacePoint>>& polylines);
+    OpenGlWidget::Data convertBoundingBoxToGraphicsObject(Triangulation& inTriangulation);
     void readFile(const QString&);
 
 public:

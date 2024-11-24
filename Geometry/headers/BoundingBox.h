@@ -1,4 +1,6 @@
 #pragma once
+#include "SurfacePoint.h"
+#include <vector>
 namespace Geometry 
 {
     class BoundingBox
@@ -6,20 +8,14 @@ namespace Geometry
 
     private:
 
-        // Bounding box limits
-        double  xMin;
-        double  yMin;
-        double  zMin;
-        double  xMax;
-        double  yMax;
-        double  zMax;
+        SurfacePoint lowestBound;
+        SurfacePoint highestBound;
 
     public:
-
         BoundingBox();
+        BoundingBox(SurfacePoint& sp1, SurfacePoint& sp2);
         ~BoundingBox();
 
-        void setMinMax(double x, double y, double z);
-        //std::vector<std::vector<double>> generateVertices() const;
+        std::vector<SurfacePoint> getBounds();
     };
 }

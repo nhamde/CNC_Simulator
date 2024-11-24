@@ -1,13 +1,11 @@
 #include "BoundingBox.h"
-#include <algorithm>
 using namespace Geometry;
 Geometry::BoundingBox::BoundingBox()
-    :   xMin(std::numeric_limits<double>::max()),
-        yMin(std::numeric_limits<double>::max()),
-        zMin(std::numeric_limits<double>::max()),
-        xMax(std::numeric_limits<double>::lowest()),
-        yMax(std::numeric_limits<double>::lowest()),
-        zMax(std::numeric_limits<double>::lowest())
+{
+}
+Geometry::BoundingBox::BoundingBox(SurfacePoint& sp1, SurfacePoint& sp2)
+    :   lowestBound(sp1),
+    highestBound(sp2)
 {
 }
 
@@ -15,15 +13,10 @@ Geometry::BoundingBox::~BoundingBox()
 {
 }
 
-void Geometry::BoundingBox::setMinMax(double x, double y, double z)
+std::vector<SurfacePoint> Geometry::BoundingBox::getBounds()
 {
-    xMin = std::min(xMin, x);
-    yMin = std::min(yMin, y);
-    zMin = std::min(zMin, z);
-
-    xMax = std::max(xMax, x);
-    yMax = std::max(yMax, y);
-    zMax = std::max(zMax, z);
+    std::vector<SurfacePoint> bounds = { lowestBound, highestBound };
+    return bounds;
 }
 
 //std::vector<std::vector<double>> BoundingBox::generateVertices() const {
