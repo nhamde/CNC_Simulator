@@ -61,20 +61,18 @@ OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Tr
     return data;
 }
 
-OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<vector<SurfacePoint>>& polylines)
+OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<SurfacePoint>& polylines)
 {
     OpenGlWidget::Data data;
     for (auto polyline : polylines)
     {
-        for (auto point : polyline)
-        {
-            data.vertices.push_back(point.X());
-            data.vertices.push_back(point.Y());
-            data.vertices.push_back(point.Z());
-            data.colors.push_back(1.0);
-            data.colors.push_back(0.0);
-            data.colors.push_back(1.0);
-        }
+        data.vertices.push_back(polyline.X());
+        data.vertices.push_back(polyline.Y());
+        data.vertices.push_back(polyline.Z());
+        data.colors.push_back(1.0);
+        data.colors.push_back(0.0);
+        data.colors.push_back(1.0);
+ 
     }
     data.drawStyle = OpenGlWidget::DrawStyle::LINES;
     return data;
@@ -95,11 +93,18 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 1.0, -1.0);
+    vector<SurfacePoint> vectorOfPoints = pc.createPath(inTri, 1.0, -1.0);
 
+    for (size_t i = 0; i < vectorOfPoints.size(); ++i) {
+        const SurfacePoint& point = vectorOfPoints[i];
+        qDebug() << "Point" << i << ":"
+            << "x =" << point.X()
+            << "y =" << point.Y()
+            << "z =" << point.Z();  // Adjust based on SurfacePoint properties
+    }
     OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
     openglWindowOutput->addObject(data);
-
+    
     cout << "Total number of polylines: " << vectorOfPoints.size() << endl;
     cout << "Polylines data is set successfully" << endl;
 }

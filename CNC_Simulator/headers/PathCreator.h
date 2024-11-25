@@ -14,7 +14,7 @@ public:
 	PathCreator();
 	~PathCreator();
 	// Creates polylines for each xz plane
-	vector<vector<SurfacePoint>> createPath(Triangulation& triangulation, double yMax, double yMin);	
+	vector<SurfacePoint> createPath(Triangulation& triangulation, double yMax, double yMin);	
 	
 };
 

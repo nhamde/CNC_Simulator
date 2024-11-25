@@ -11,11 +11,11 @@ PathCreator::~PathCreator()
 {
 }
 
-vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& triangulation, double yMax, double yMin)
+vector<SurfacePoint> PathCreator::createPath(Triangulation& triangulation, double yMax, double yMin)
 {
-	vector<vector<SurfacePoint>> pathOfMesh;
-	double currentYAxis = yMax;
-	for (; currentYAxis >= yMin; currentYAxis = currentYAxis - 0.05)
+	vector<SurfacePoint> pathOfMesh;
+	
+	for (double currentYAxis = yMax; currentYAxis >= yMin; currentYAxis = currentYAxis - 0.1)
 	{ 
 		vector<Triangle> trianglesAtYAxis;
 		for (auto triangle: triangulation.Triangles)
@@ -48,7 +48,7 @@ vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& triangulatio
 			std::cerr << "Error: " << e.what() << std::endl;
 		}
 		vector<SurfacePoint> sortedPoints = sortPoints(sortedTriangles, triangulation, currentYAxis);
-		pathOfMesh.push_back(sortedPoints);
+		pathOfMesh.insert(pathOfMesh.end(),sortedPoints.begin(),sortedPoints.end());
 	}
 	return pathOfMesh;
 }

@@ -15,7 +15,7 @@ class CNC_Simulator : public QMainWindow
 private:
     void setupUi();
     OpenGlWidget::Data convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation);
-    OpenGlWidget::Data convertPolylinesToGraphicsObject(const vector<vector<SurfacePoint>>& polylines);
+    OpenGlWidget::Data convertPolylinesToGraphicsObject(const vector<SurfacePoint>& polylines);
     void readFile(const QString&);
 
 public:
