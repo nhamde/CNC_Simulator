@@ -34,7 +34,7 @@ double SurfacePoint::Z() const
 	return mZ;
 }
 
-bool Geometry::SurfacePoint::operator()(const SurfacePoint& other) const
+bool SurfacePoint::operator()(const SurfacePoint& other) const
 {
 	if (mX > other.mX) return true;
 	if (mX < other.mX) return false;
