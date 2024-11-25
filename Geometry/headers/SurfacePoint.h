@@ -6,18 +6,24 @@ namespace Geometry
 	class SurfacePoint
 	{
 	private:
-		double x;
-		double y;
-		double z;
+		double mX;
+		double mY;
+		double mZ;
 	public:
 
 		SurfacePoint();
-		SurfacePoint(double, double, double);
+		SurfacePoint(double x, double y, double z);
 		~SurfacePoint();
+
+
 		double X() const;
 		double Y() const;
 		double Z() const;
+
 		bool operator==(const SurfacePoint& other) const;
+
 		bool operator()(const SurfacePoint& other) const;
+
+
 	};
 }

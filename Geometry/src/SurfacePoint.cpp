@@ -3,45 +3,50 @@
 using namespace Geometry;
 
 SurfacePoint::SurfacePoint()
-	:x(0.0),
-	y(0.0),
-	z(0.0)
+	:mX(0.0),
+	mY(0.0),
+	mZ(0.0)
 {
 }
- 
-SurfacePoint::SurfacePoint(double _x, double _y, double _z)
-	:x(_x),
-	y(_y),
-	z(_z)
+
+SurfacePoint::SurfacePoint(double x, double y, double z)
+	:mX(x),
+	mY(y),
+	mZ(z)
 {
 }
- 
+
 SurfacePoint::~SurfacePoint()
 {
 }
 double SurfacePoint::X() const
 {
-	return x;
+	return mX;
 }
- 
+
 double SurfacePoint::Y() const
 {
-	return y;
+	return mY;
 }
- 
+
 double SurfacePoint::Z() const
 {
-	return z;
+	return mZ;
 }
 
 bool Geometry::SurfacePoint::operator()(const SurfacePoint& other) const
 {
-	if (x > other.x) return true;
-	if (x < other.x) return false;
-	return z > other.z;
+	if (mX > other.mX) return true;
+	if (mX < other.mX) return false;
+	return mZ > other.mZ;
 }
- 
+
+
 bool SurfacePoint::operator==(const SurfacePoint& other) const
 {
-	return fabs(x - other.x) < TOLERANCE && fabs(y - other.y) < TOLERANCE && fabs(z - other.z) < TOLERANCE;
+	return (fabs(mX - other.mX) < TOLERANCE) && (fabs(mY - other.mY) < TOLERANCE) && (fabs(mZ - other.mZ) < TOLERANCE);
 }
+
+
+
+
