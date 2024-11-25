@@ -40,34 +40,40 @@ vector<vector<SurfacePoint>> PathCreator::createPath(Triangulation& triangulatio
 				trianglesAtYAxis.push_back(triangle);
 			}
 		}
-		vector<Triangle> sortedTriangles = sortTriangles(trianglesAtYAxis);
+		vector<Triangle> sortedTriangles;
+		try {
+			sortedTriangles = sortTriangles(trianglesAtYAxis);
+		}
+		catch (const runtime_error& e) {
+			std::cerr << "Error: " << e.what() << std::endl;
+		}
 		vector<SurfacePoint> sortedPoints = sortPoints(sortedTriangles, triangulation, currentYAxis);
 		pathOfMesh.push_back(sortedPoints);
 	}
 	return pathOfMesh;
 }
 
-vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& coplanarTriangles)
+vector<Triangle> PathCreator::sortTriangles(vector<Triangle>& triangles)
 {
-	if (coplanarTriangles.empty()) 
+	if (triangles.empty()) 
 	{
 		return {};
 	}
 
 	vector<Triangle> sortedTriangles;
-	sortedTriangles.push_back(coplanarTriangles.front());
-	coplanarTriangles.erase(coplanarTriangles.begin());
+	sortedTriangles.push_back(triangles.front());
+	triangles.erase(triangles.begin());
 
-	while (!coplanarTriangles.empty()) 
+	while (!triangles.empty()) 
 	{
 		bool foundNext = false;
 
-		for (auto it = coplanarTriangles.begin(); it != coplanarTriangles.end(); ++it) 
+		for (auto it = triangles.begin(); it != triangles.end(); ++it) 
 		{
 			if (sortedTriangles.back().areAdjacent(*it)) 
 			{
 				sortedTriangles.push_back(*it); 
-				coplanarTriangles.erase(it);
+				triangles.erase(it);
 				foundNext = true;
 				break;
 			}
@@ -94,7 +100,7 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 		return {};
 	}
 
-	vector<vector<SurfacePoint>> IntersectionPtsOfEachTrs;
+	vector<vector<SurfacePoint>> intersectionPtsOfEachTrs;
 	vector<SurfacePoint> sortedPoints;
 	unordered_map<SurfacePoint, int, SurfacePoint> map;
 
@@ -104,10 +110,10 @@ vector<SurfacePoint> PathCreator::sortPoints(vector<Triangle>& sortedTriangles, 
 		SurfacePoint p1 = triangulation.getRealPoint(triangle.P1());
 		SurfacePoint p2 = triangulation.getRealPoint(triangle.P2());
 		SurfacePoint p3 = triangulation.getRealPoint(triangle.P3());
-		IntersectionPtsOfEachTrs.push_back(intersector.intersect(p1, p2, p3, yAxisOfPlane));
+		intersectionPtsOfEachTrs.push_back(intersector.intersect(p1, p2, p3, yAxisOfPlane));
 	}
 
-	for (auto intersection : IntersectionPtsOfEachTrs)
+	for (auto intersection : intersectionPtsOfEachTrs)
 	{
 		for (int i = 0; i < intersection.size(); i++)
 		{

@@ -1,5 +1,6 @@
 #pragma once
 #include "Triangulation.h"
+#include <vector>
 using namespace Geometry;
 using namespace std;
 class PathCreator
