@@ -74,15 +74,29 @@ OpenGlWidget::Data CNC_Simulator::convertPolylinesToGraphicsObject(const vector<
 OpenGlWidget::Data CNC_Simulator::convertBoundingBoxToGraphicsObject(Triangulation& tri)
 {
     OpenGlWidget::Data data;
-    vector<SurfacePoint> bounds = tri.boundingBox.getBounds();
-    for (auto pt : bounds)
-    {
-        data.vertices.push_back(pt.X());
-        data.vertices.push_back(pt.Y());
-        data.vertices.push_back(pt.Z());
-        data.colors.push_back(1.0);
-        data.colors.push_back(0.0);
-        data.colors.push_back(0.0);
+    vector<SurfacePoint> vertices = tri.boundingBox.getBounds();
+    vector<pair<int, int>> edges = {
+       {4, 6}, {6, 7}, {7, 5}, {5, 4}, // Bottom face
+       {0, 2}, {2, 3}, {3, 1}, {1, 0}, // Top face
+       {4, 0}, {6, 2}, {7, 3}, {5, 1}  // Vertical edges
+    };
+    
+    for (const auto& edge : edges) {
+        int start = edge.first;
+        int end = edge.second;
+        data.vertices.push_back(vertices[start].X());
+        data.vertices.push_back(vertices[start].Y());
+        data.vertices.push_back(vertices[start].Z());
+        data.colors.push_back(1.0); // R
+        data.colors.push_back(0.0); // G
+        data.colors.push_back(0.0); // B
+
+        data.vertices.push_back(vertices[end].X());
+        data.vertices.push_back(vertices[end].Y());
+        data.vertices.push_back(vertices[end].Z());
+        data.colors.push_back(1.0); // R
+        data.colors.push_back(0.0); // G
+        data.colors.push_back(0.0); // B
     }
     data.drawStyle = OpenGlWidget::DrawStyle::LINES;
     return data;
@@ -103,7 +117,7 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 1, -1);
+    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 20, -20);
 
     //OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
     OpenGlWidget::Data data =  convertBoundingBoxToGraphicsObject(inTri);

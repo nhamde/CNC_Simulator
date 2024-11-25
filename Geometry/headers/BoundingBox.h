@@ -11,6 +11,7 @@ namespace Geometry
         SurfacePoint lowestBound;
         SurfacePoint highestBound;
 
+
     public:
         BoundingBox();
         BoundingBox(SurfacePoint& sp1, SurfacePoint& sp2);

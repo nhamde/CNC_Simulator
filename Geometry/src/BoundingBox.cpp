@@ -1,21 +1,30 @@
 #include "BoundingBox.h"
 using namespace Geometry;
-Geometry::BoundingBox::BoundingBox()
+BoundingBox::BoundingBox()
 {
 }
-Geometry::BoundingBox::BoundingBox(SurfacePoint& sp1, SurfacePoint& sp2)
+BoundingBox::BoundingBox(SurfacePoint& sp1, SurfacePoint& sp2)
     :   lowestBound(sp1),
     highestBound(sp2)
 {
 }
 
-Geometry::BoundingBox::~BoundingBox()
+BoundingBox::~BoundingBox()
 {
 }
 
-std::vector<SurfacePoint> Geometry::BoundingBox::getBounds()
+std::vector<SurfacePoint> BoundingBox::getBounds()
 {
-    std::vector<SurfacePoint> bounds = { lowestBound, highestBound };
+    SurfacePoint TBL = SurfacePoint(lowestBound.X(), highestBound.Y(), lowestBound.Z());
+    SurfacePoint TBR = SurfacePoint(highestBound.X(), highestBound.Y(), lowestBound.Z());
+    SurfacePoint TFL = SurfacePoint(lowestBound.X(), highestBound.Y(), highestBound.Z());
+    SurfacePoint TFR = SurfacePoint(highestBound.X(), highestBound.Y(), highestBound.Z());
+    SurfacePoint BBL = SurfacePoint(lowestBound.X(), lowestBound.Y(), lowestBound.Z());
+    SurfacePoint BBR = SurfacePoint(highestBound.X(), lowestBound.Y(), lowestBound.Z());
+    SurfacePoint BFL = SurfacePoint(lowestBound.X(), lowestBound.Y(), highestBound.Z());
+    SurfacePoint BFR = SurfacePoint(highestBound.X(), lowestBound.Y(), highestBound.Z());
+
+    std::vector<SurfacePoint> bounds = { TBL, TBR, TFL, TFR, BBL, BBR, BFL, BFR };
     return bounds;
 }
 

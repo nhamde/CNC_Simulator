@@ -11,5 +11,4 @@ public:
 	Intersector();
 	~Intersector();
 	std::vector<Geometry::SurfacePoint> triangleXZPlaneIntersection(const Geometry::SurfacePoint& surfacePoint1, const Geometry::SurfacePoint& surfacePoint2, const Geometry::SurfacePoint& surfacePoint3, double yValueOfXZPlane);
-
 };
