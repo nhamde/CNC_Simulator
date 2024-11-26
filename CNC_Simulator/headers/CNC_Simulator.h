@@ -2,6 +2,7 @@
 #include "Triangulation.h"
 #include "BoundingBox.h"
 #include <QPushButton>
+#include <QProgressBar> 
 #include "OpenglWidget.h"
 #include <QMessageBox>
 #include <QtWidgets/QMainWindow>
@@ -42,5 +43,6 @@ private:
     QString inputFilePath;
     QMessageBox msgBox;
     Triangulation inTri;
+    QProgressBar* progressBar;
     double smoothnessFactor;
 };
