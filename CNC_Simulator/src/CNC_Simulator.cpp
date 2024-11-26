@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include "OBJReader.h"
 #include "PathCreator.h"
+#include <qapplication.h>
 #include <iostream>
 using namespace std;
 
@@ -13,23 +14,61 @@ void CNC_Simulator::setupUi()
     openglWindowInput = new OpenGlWidget(this);
     openglWindowOutput = new OpenGlWidget(this);
 
+     // Customize button styles
+     loadFile->setStyleSheet("background-color: #007BFF; color: white; font-size: 14px; border-radius: 8px; padding: 6px;");
+     simulate->setStyleSheet("background-color: #28A745; color: white; font-size: 14px; border-radius: 8px; padding: 6px;");
+
+     progressBar = new QProgressBar(this); // Add progress bar
+     progressBar->setRange(0, 100);
+     progressBar->setValue(0);
+     progressBar->setStyleSheet(
+         "QProgressBar {"
+     "    border: 1px solid #555;"
+     "    border-radius: 4px;"
+     "    background: #DDD;"
+     "    text-align: center;"
+     "}"
+     "QProgressBar::chunk {"
+     "    background-color: #28A745;"
+     "    width: 20px;"
+     "}"
+     );
+     progressBar->setVisible(false); // Hide initially
+    
     QGridLayout* layout = new QGridLayout(this);
 
     graphicsSynchronizer = new GraphicsSynchronizer(openglWindowInput, openglWindowOutput);
 
     layout->addWidget(loadFile, 0, 0, 1, 1);
     layout->addWidget(simulate, 0, 1, 1, 1);
-    layout->addWidget(openglWindowInput, 1, 0, 1, 1);
-    layout->addWidget(openglWindowOutput, 1, 1, 1, 1);
+    // layout->addWidget(openglWindowInput, 1, 0, 1, 1);
+    // layout->addWidget(openglWindowOutput, 1, 1, 1, 1);
+
+    layout->addWidget(progressBar, 1, 0, 1, 2);        // Add progress bar in the next row spanning two columns
+    layout->addWidget(openglWindowInput, 2, 0, 1, 1);  // Add OpenGL input widget
+    layout->addWidget(openglWindowOutput, 2, 1, 1, 1); // Add OpenGL output widget
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
     centralWidget->setLayout(layout);
+     this->setStyleSheet(
+     "QMainWindow {"
+     "    background-color: #F8F9FA;" // Light gray background for the app
+     "}"
+     "QWidget {"
+     "    font-family: Arial, sans-serif;"
+     "    font-size: 14px;"
+     "    color: #333;" // General text color
+     "}"
+ );
 }
 
 OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Triangulation& inTriangulation)
 {
     OpenGlWidget::Data data;
+     progressBar->setVisible(true);
+     progressBar->setValue(0);
+     int steps = 0;
     for (Triangle triangle : inTriangulation.Triangles)
     {
         vector<Point> pts = triangle.Points();
@@ -47,7 +86,12 @@ OpenGlWidget::Data CNC_Simulator::convertTrianglulationToGraphicsObject(const Tr
             data.colors.push_back(0.0);
             data.colors.push_back(0.0);
         }
+         progressBar->setValue(steps);
+         progressBar->setRange(0, inTriangulation.Triangles.size() - 1);
+         QCoreApplication::processEvents();
+         steps++;
     }
+    progressBar->setVisible(false);
     data.drawStyle = OpenGlWidget::DrawStyle::TRIANGLES;
     return data;
 }
