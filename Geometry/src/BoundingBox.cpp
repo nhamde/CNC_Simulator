@@ -13,6 +13,14 @@ BoundingBox::~BoundingBox()
 {
 }
 
+SurfacePoint Geometry::BoundingBox::getHighestBound()
+{
+    return highestBound;
+}
+SurfacePoint Geometry::BoundingBox::getLowestBound()
+{
+    return lowestBound;
+}
 std::vector<SurfacePoint> BoundingBox::getBounds()
 {
     SurfacePoint topBackLeftPoint(lowestBound.X(), highestBound.Y(), lowestBound.Z());

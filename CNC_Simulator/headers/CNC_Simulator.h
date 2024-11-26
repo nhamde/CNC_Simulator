@@ -42,4 +42,5 @@ private:
     QString inputFilePath;
     QMessageBox msgBox;
     Triangulation inTri;
+    double smoothnessFactor;
 };

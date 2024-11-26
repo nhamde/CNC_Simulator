@@ -16,7 +16,8 @@ namespace Geometry
         BoundingBox();
         BoundingBox(SurfacePoint& sp1, SurfacePoint& sp2);
         ~BoundingBox();
-
+        SurfacePoint getHighestBound();
+        SurfacePoint getLowestBound();
         std::vector<SurfacePoint> getBounds();
     };
 }

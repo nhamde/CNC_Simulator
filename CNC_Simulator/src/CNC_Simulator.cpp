@@ -117,10 +117,10 @@ CNC_Simulator::~CNC_Simulator()
 void CNC_Simulator::onSimulateClick()
 {
     PathCreator pc;
-    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri, 20, -20);
+    vector<vector<SurfacePoint>> vectorOfPoints = pc.createPath(inTri,smoothnessFactor);
 
-    //OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
-    OpenGlWidget::Data data =  convertBoundingBoxToGraphicsObject(inTri);
+    OpenGlWidget::Data data = convertPolylinesToGraphicsObject(vectorOfPoints);
+    //OpenGlWidget::Data data =  convertBoundingBoxToGraphicsObject(inTri);
     openglWindowOutput->addObject(data);
 
     cout << "Total number of polylines: " << vectorOfPoints.size() << endl;
